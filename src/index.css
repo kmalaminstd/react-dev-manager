@@ -15,3 +15,23 @@ body{
     width: 300px;
     height: auto;
 }
+
+input:not([type=radio]){
+    outline: none;
+    display: block;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+}
+
+button:disabled{
+    cursor: no-drop;
+}

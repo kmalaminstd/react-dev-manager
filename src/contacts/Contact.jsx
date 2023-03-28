@@ -3,7 +3,7 @@ import {BsEye, BsFillTrashFill} from 'react-icons/bs'
 
 function Contact({contact, deleteContact}) {
   const { id, firstName, lastName, email, profession, gender, image, dateOfBirth, bio} = contact
-  console.log(contact);
+  // console.log(contact);
   return (
     <>
         
@@ -20,7 +20,7 @@ function Contact({contact, deleteContact}) {
           <ListGroup className="list-group-flush">
             <ListGroup.Item>Gender: {gender}</ListGroup.Item>
             <ListGroup.Item>Email: {email}</ListGroup.Item>
-            <ListGroup.Item>Date of Birth: {dateOfBirth}</ListGroup.Item>
+            <ListGroup.Item>Date of Birth: {JSON.stringify(dateOfBirth)}</ListGroup.Item>
           </ListGroup>
           
             <div className="card-btn mt-3">
