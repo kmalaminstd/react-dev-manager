@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useContext } from 'react'
 import {Form, Row, Col, Button, Container} from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
 import { useForm } from  'react-hook-form'
@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import {ToastContainer, toast} from 'react-toastify'
 import { useNavigate } from 'react-router-dom';
+import { ContactContext } from '../../context/Contact.context';
 
 const scheme = yup.object({
     firstname: yup.string().required("First name is required")
@@ -22,7 +23,9 @@ const scheme = yup.object({
     .max(300, 'Maxium length is 300')
 })
 
-function ContactForm({addContact, targetContact, updateContact}) {
+function ContactForm( {addContact, targetContact}) {
+
+    const {updateContact} = useContext(ContactContext)
 
     const { register, handleSubmit, setValue, reset, formState: {errors, isSubmitting, isSubmitSuccessful} } = useForm({
         resolver: yupResolver(scheme)

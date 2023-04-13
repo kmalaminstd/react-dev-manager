@@ -3,8 +3,13 @@ import {BsEye, BsFillTrashFill} from 'react-icons/bs'
 import {format} from 'date-fns'
 import { toast , ToastContainer} from 'react-toastify'
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { ContactContext } from '../../context/Contact.context'
 
-function Contact({contact, deleteContact}) {
+function Contact({contact}) {
+
+  const {deleteContact} = useContext(ContactContext)
+
   const { id, firstname, lastname, email, profession, gender, image, dateOfBirth, bio} = contact
   // console.log(contact);
 
