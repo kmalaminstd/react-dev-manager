@@ -1,8 +1,10 @@
-import React from 'react'
+import {useContext} from 'react'
 import ContactForm from '../Components/contacts/ContactForm'
 import { useParams } from 'react-router-dom'
+import { ContactContext } from '../context/Contact.context'
 
-function Editcontact({ contacts, updateContact }) {
+function Editcontact() {
+  const {contacts, updateContact} = useContext(ContactContext)
   const {id} = useParams()
   const targetContact = contacts.find( cont => cont.id === id )
   

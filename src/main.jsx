@@ -4,9 +4,13 @@ import App from './App'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 import "react-datepicker/dist/react-datepicker.css";
+import { ContactProvider } from './context/Contact.context';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <ContactProvider>
+      <App />
+    </ContactProvider>
+ 
   </React.StrictMode>,
 )
