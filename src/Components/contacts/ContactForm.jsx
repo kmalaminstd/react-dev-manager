@@ -7,6 +7,7 @@ import * as yup from "yup";
 import {ToastContainer, toast} from 'react-toastify'
 import { useNavigate } from 'react-router-dom';
 import { ContactContext } from '../../context/Contact.context';
+import FormInputField from './FormInputField';
 
 const scheme = yup.object({
     firstname: yup.string().required("First name is required")
@@ -85,82 +86,38 @@ function ContactForm( {addContact, targetContact}) {
   return (
     <>
 
-        <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover={false}
-            theme="colored"
-        />
 
         <Container className="mt-3">
             <h2 className='text-center'>{targetContact?.id ? 'Edit Contact' : 'Add Contact'}</h2>
 
             <Form className='mt-5' onSubmit={handleSubmit(onSubmit)}>
 
+                <FormInputField 
+                    name="firstname"
+                    label="First Name"
+                    type="text" 
+                    errors={errors}
+                    defaultValue={firstname}
+                    register={register}
+                />
 
+                <FormInputField 
+                    name="lastname"
+                    label="Last Name"
+                    type="text" 
+                    errors={errors}
+                    defaultValue={lastname}
+                    register={register}
+                />
 
-                <Form.Group as={Row} className="mb-3">
-
-                    <Col sm={3} className="d-flex align-items-center" >
-                        <Form.Label htmlFor='firstname'>First Name:</Form.Label>
-                    </Col>
-                    <Col sm={9}>
-                        <Form.Control 
-                            type="text"
-                            id="firstname"
-                            {...register("firstname")}
-                            isInvalid={errors?.firstname}
-                            defaultValue={firstname}
-                        />
-                        <Form.Control.Feedback type="invalid" className="d-block">
-                            {errors?.firstname?.message}
-                        </Form.Control.Feedback>  
-                    </Col>
-                </Form.Group>
-                
-                <Form.Group as={Row} className="mb-3">
-                    <Col sm={3} className="d-flex align-items-center" >
-                        <Form.Label htmlFor='lastname'>Last Name:</Form.Label>
-                    </Col>
-                    <Col sm={9}>
-                        <Form.Control 
-                            type="text"
-                            id="lastname"
-                            {...register("lastname")}
-                            isInvalid={errors?.lastname}
-                            defaultValue={lastname}
-                        />
-                        <Form.Control.Feedback type="invalid" className="d-block">
-                            {errors?.lastname?.message}
-                        </Form.Control.Feedback>  
-                    </Col>
-                </Form.Group>
-
-
-                <Form.Group as={Row} className="mb-3">
-                    <Col sm={3} className="d-flex align-items-center" >
-                        <Form.Label htmlFor='email'>Email:</Form.Label>
-                    </Col>
-                    <Col sm={9}>
-                        <Form.Control 
-                            type="email"
-                            id="email"
-                            {...register("email")}
-                            isInvalid={errors?.email}
-                            defaultValue={email}
-                        />
-                        <Form.Control.Feedback type="invalid" className="d-block">
-                            {errors?.email?.message}
-                        </Form.Control.Feedback>  
-                    </Col>
-                </Form.Group>
-
+                <FormInputField 
+                    name="email"
+                    label="Email"
+                    type="email" 
+                    errors={errors}
+                    defaultValue={email}
+                    register={register}
+                />
 
                 <Form.Group as={Row} className="mb-3">
                     <Col sm={3} className="d-flex align-items-center" >
@@ -170,7 +127,7 @@ function ContactForm( {addContact, targetContact}) {
                         <DatePicker
                             ref={nodeRef}
                             selected={birthYear}
-                            value={dateOfBirth}
+                            defaultValue={dateOfBirth}
                             type="date"
                             name="dateOfBirth"
                             id="dateOfBirth"
@@ -180,7 +137,6 @@ function ContactForm( {addContact, targetContact}) {
                             maxDate={new Date()}
                             placeholderText="Click here to enter date"
                             showYearDropdown
-                            
                         />
                     </Col>
                 </Form.Group>
@@ -229,44 +185,25 @@ function ContactForm( {addContact, targetContact}) {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} className="mb-3">
-                    <Col sm={3} className="d-flex align-items-center" >
-                        <Form.Label htmlFor='image'>Image:</Form.Label>
-                    </Col>
-                    <Col sm={9}>
-                        <Form.Control 
-                            type="text"
-                            id="image"
-                            {...register("image")}
-                            isInvalid={errors?.image}
-                            defaultValue={image}
-                        />
-                        <Form.Control.Feedback type="invalid" className="d-block">
-                            {errors?.image?.message}
-                        </Form.Control.Feedback>  
-                    </Col>
-                </Form.Group>
+                <FormInputField 
+                    name="image"
+                    label="Image"
+                    type="text" 
+                    errors={errors}
+                    defaultValue={image}
+                    register={register}
+                />
 
-                <Form.Group as={Row} className="mb-3">
-                    <Col sm={3} className="d-flex align-items-center" >
-                        <Form.Label htmlFor='bio'>Bio:</Form.Label>
-                    </Col>
-                    <Col sm={9}>
-                        <Form.Control 
-                            as='textarea'
-                            id="bio"
-                            {...register("bio")}
-                            isInvalid={errors?.bio}
-                            defaultValue={bio}
-                        />
-                        <Form.Control.Feedback type="invalid" className="d-block">
-                            {errors?.bio?.message}
-                        </Form.Control.Feedback>  
-                    </Col>
-                </Form.Group> 
+                <FormInputField
+                    as="textarea" 
+                    name="bio"
+                    label="Bio" 
+                    errors={errors}
+                    defaultValue={bio}
+                    register={register}
+                />
 
-
-                <Button siz="md" type="submit" variant="secondary" disabled={isSubmitting}>{targetContact?.id ? 'Edit Contact' : 'Add Contact'}</Button>
+                <Button size="md" type="submit" variant="secondary" disabled={isSubmitting}>{targetContact?.id ? 'Edit Contact' : 'Add Contact'}</Button>
             </Form>
         </Container>
 

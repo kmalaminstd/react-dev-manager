@@ -1,4 +1,7 @@
-import { createContext, useState } from 'react'
+import { createContext, useReducer, useState } from 'react'
+import { ADD_CONTACT, DELETE_CONTACT, UPDATE_CONTACT } from './typs'
+import contactsReducer from './reducer'
+
 
 // create context
 
@@ -84,39 +87,34 @@ const inititalData = [
     },
   ]
 
+// contact reducer function
+
 // provide context
 
 const ContactProvider = ({children}) =>{
-    const [contacts, setContacts] = useState(inititalData)
+    const [contacts, disPatch] = useReducer(contactsReducer, inititalData)
+
+
 
     const deleteContact = (id) => {
-        const updateInitialData = contacts.filter(cont => cont.id !== id)
-        setContacts(updateInitialData)
-      }
+        disPatch({
+          type: DELETE_CONTACT,
+          payload: id
+        })
+    }
     
       const addContact = (data) => {
-        const contactToAdd ={
-          id: contacts.length+1 ,
-          ...data
-        }
-        setContacts([ contactToAdd, ...contacts])
+        disPatch({
+          type: ADD_CONTACT,
+          payload: data
+        })
+
         
       }
     
       const updateContact = (upContact, id) => {
-        const contactUpdated = contacts.map( cont => {
-          if(cont.id === id){
-            return{ 
-              id,
-              ...upContact
-            }
-          }else{
-            return cont
-          }
-        })
-    
-        setContacts(contactUpdated)
-    
+        disPatch({type: UPDATE_CONTACT, payload: {upContact, id}})
+
       }
 
       const value = {
