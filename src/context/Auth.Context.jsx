@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext()
 
-const loaderUserData = localStorage.getItem("user")
-const loadedTokenData = localStorage.getItem("token")
+const loaderUserData = JSON.parse(localStorage.getItem("user"))
+const loadedTokenData = JSON.parse(localStorage.getItem("token"))
 
 export const AuthContextProvider = ({children})=>{
     const [user, setUser] = useState(loaderUserData ? loaderUserData : null)
     const [token, setToken] = useState(loadedTokenData ? loadedTokenData : null)
     const navigate = useNavigate()
 
-    console.log(user);
+    // console.log(user);
 
     // user registration function
     const userRegister = async (data) =>{
@@ -53,8 +53,11 @@ export const AuthContextProvider = ({children})=>{
     const userLogOut = () =>{
         localStorage.removeItem('user')
         localStorage.removeItem('token')
+        setUser(null)
+        setToken(null)
         toast.success('LogOut Successfull !!')
         navigate('/')
+        // console.log(user);
     }
 
     const value = {
