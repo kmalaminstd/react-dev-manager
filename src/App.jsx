@@ -13,6 +13,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Editcontact from "./pages/Editcontact"
 import ContactDetails from "./pages/ContactDetails"
+import {ToastContainer} from "react-toastify"
 
 
 
@@ -21,7 +22,19 @@ function App() {
   
   return(
     <>
-      <BrowserRouter>
+
+        <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover={false}
+        />
+
 
         <Header />
 
@@ -42,8 +55,6 @@ function App() {
           
         </Container>
         
-      
-      </BrowserRouter>
 
       <Footer />
     </>
