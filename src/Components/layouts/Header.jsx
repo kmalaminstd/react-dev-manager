@@ -22,6 +22,7 @@ function Header() {
               {
                 user && ( 
                 <>
+                  <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
                   <Nav.Link as={NavLink} to="/contact">Contacts</Nav.Link>
                   <Nav.Link as={NavLink} to="/add-contact">Add Contacts</Nav.Link>
                   <Nav.Link onClick={userLogOut} > Log Out </Nav.Link>

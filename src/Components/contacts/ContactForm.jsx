@@ -24,8 +24,9 @@ const scheme = yup.object({
     .max(300, 'Maxium length is 300')
 })
 
-function ContactForm( {addContact, targetContact}) {
+function ContactForm({addContact, targetContact}) {
 
+    // console.log(targetContact);
     const {updateContact} = useContext(ContactContext)
 
     const { register, handleSubmit, setValue, reset, formState: {errors, isSubmitting, isSubmitSuccessful} } = useForm({
@@ -38,11 +39,9 @@ function ContactForm( {addContact, targetContact}) {
     const onSubmit = data => {
 
         if(targetContact?.id){
-            toast.success('Contact Updated Successfully!')
             updateContact(data, targetContact.id)
         }else{
             addContact(data)
-            toast.success('Form Submitted Successfully!') 
         }
         navigate('/contact')
         
@@ -149,8 +148,8 @@ function ContactForm( {addContact, targetContact}) {
                         <Form.Select {...register('profession', {required: 'Please select your profession'})} isInvalid={errors?.profession} defaultValue={profession}>
                             <option disabled value=''>Select a option</option>
                             <option value="Web Developer">Web Developer</option>
-                            <option value=" Web Designer"> Web Designer</option>
-                            <option value=" Software Engineer"> Software Engineer</option>
+                            <option value="Web Designer"> Web Designer</option>
+                            <option value="Software Engineer"> Software Engineer</option>
                         </Form.Select>
                         <Form.Control.Feedback type="invalid" className="d-block">
                             {errors?.profession?.message}
