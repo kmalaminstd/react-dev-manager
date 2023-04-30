@@ -1,6 +1,11 @@
-import { createContext, useReducer, useState } from 'react'
-import { ADD_CONTACT, DELETE_CONTACT, UPDATE_CONTACT } from './typs'
+import { createContext, useContext, useEffect, useReducer, useState } from 'react'
+import { ADD_CONTACT, DELETE_CONTACT, UPDATE_CONTACT, LOAD_CONTACT } from './typs'
 import contactsReducer from './reducer'
+import { axiosPrivateInstance } from '../config/config'
+import { formatContact } from '../utils/formatContact'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from './Auth.Context'
+import {toast} from 'react-toastify'
 
 
 // create context
@@ -93,36 +98,94 @@ const inititalData = [
 
 const ContactProvider = ({children}) =>{
     const [contacts, disPatch] = useReducer(contactsReducer, inititalData)
+    const [loaded, setLoader] = useState(false)
+    const navigate = useNavigate()
+    const {user} = useContext(AuthContext)
 
+    const loadAllContacts = async ()=>{
+      try{
+        const response = await axiosPrivateInstance.get('/contacts')
+        const loadedContact = response.data.data.map(contact => formatContact(contact))
+        disPatch({
+          type: LOAD_CONTACT,
+          payload: loadedContact
+        })
+        setLoader(true)
+        // console.log(loadedContact);
+      }catch(err){
+        console.log(err.response);
+      }
 
+    }
 
-    const deleteContact = (id) => {
+    useEffect(()=>{
+      (async()=>{
+        await loadAllContacts()
+      })()
+    },[])
+
+    const deleteContact = async (id) => {
+      try{
+        const response = await axiosPrivateInstance.delete(`contacts/${Number(id)}`)
         disPatch({
           type: DELETE_CONTACT,
           payload: id
         })
+        toast.success('Contact Deleted Successfully')
+        console.log(response.data)
+      }catch(err){
+        console.log(err.response);
+        toast.error('Data Delete Failed!')
+      }
     }
     
-      const addContact = (data) => {
-        disPatch({
-          type: ADD_CONTACT,
-          payload: data
-        })
-
+      const addContact = async(data) => {
+        try{
+          data = {
+            author: user.id,
+            ...data
+          }
+          const response = await axiosPrivateInstance.post('/contacts',{
+            data: data
+          })
+          const contact = formatContact(response.data.data)
+          // toast message 
+          toast.success('Delete Successfully')
+          //redirect another page
+          navigate('/contact')
+          disPatch({
+            type: ADD_CONTACT,
+            payload: contact
+          })
+          console.log(response.data);
+        }catch(err){
+          console.log(err.response);
+        }
         
       }
     
-      const updateContact = (upContact, id) => {
-        disPatch({type: UPDATE_CONTACT, payload: {upContact, id}})
+      const updateContact = async (upContact, id) => {
+        try{
+          const response = await axiosPrivateInstance.put(`/contacts/${id}?populate=*`,{
+            data: upContact
+          })
+          const contact = formatContact(response.data.data)
+          disPatch({type: UPDATE_CONTACT, payload: { id: contact.id, upContact} })
+          toast.success('Contact Updated Successfully!!')
+        }catch(err){
+          console.log(err.response);
+          // toast.success(err.response?.data)
+        }
 
       }
-
+      // console.log(contacts);
       const value = {
+        loaded,
         contacts,
         deleteContact,
         addContact,
         updateContact
-    }
+      }
 
 
     return <ContactContext.Provider value={value}>

@@ -15,7 +15,6 @@ function Contact({contact}) {
 
   const handleDelete = (id)=> {
     deleteContact(id)
-    toast.success('Poste Deleted Successfully!!')
   }
 
 
@@ -23,18 +22,6 @@ function Contact({contact}) {
   return (
     <>
 
-          <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover={false}
-            theme="colored"
-          />
 
       <Container className='mt-3'>
 

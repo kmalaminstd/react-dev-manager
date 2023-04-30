@@ -20,8 +20,9 @@ function Header() {
               navbarScroll
             >
               {
-                user &&( 
+                user && ( 
                 <>
+                  <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
                   <Nav.Link as={NavLink} to="/contact">Contacts</Nav.Link>
                   <Nav.Link as={NavLink} to="/add-contact">Add Contacts</Nav.Link>
                   <Nav.Link onClick={userLogOut} > Log Out </Nav.Link>
@@ -29,15 +30,13 @@ function Header() {
               }
 
               {  
-                !user &&(
-                                <>
-                                  <Nav.Link as={NavLink} to="/register">Register</Nav.Link>
-                                  <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
-                                </>)
+                !user && (
+                  <>
+                    <Nav.Link as={NavLink} to="/register">Register</Nav.Link>
+                    <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+                  </>)
               }
 
-   
-              
             </Nav>
             <Form className="d-flex">
               <Form.Control

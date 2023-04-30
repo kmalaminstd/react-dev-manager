@@ -3,7 +3,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Container, Card, Button, ListGroup, } from 'react-bootstrap'
 import { BsFillTrashFill} from 'react-icons/bs'
 import {FaRegEdit} from 'react-icons/fa'
-import { toast } from 'react-toastify'
 import {format} from 'date-fns'
 import { ContactContext } from '../context/Contact.context'
 
@@ -12,29 +11,25 @@ function ContactDetails() {
     const [newCont, setNewCont] = useState({})
     const params = useParams()
     const {id} = params
-    const navigate = useNavigate()
 
-
-    const getCont = contacts.find( cont => cont.id === id)
+    const getCont = contacts.find( cont => Number(cont.id) === Number(id))
 
     useEffect(()=> {
         if(id && contacts){
             setNewCont(getCont)
         }
     },[id])
-
+    // console.log(getCont);
     const { firstname, lastname, email, profession, gender, image, dateOfBirth, bio } = newCont
     
     const handleDelete = (id) =>{
         deleteContact(id)
-        navigate('/contact')
-        toast.success('Delete Successfully')
     }
 
   return (
     <Container className='mt-3'>
 
-    {
+    {   
         Object.keys(newCont).length === 0 ? 'No Contact Found' : (
 
             <Card className='mb-3'>
@@ -56,7 +51,7 @@ function ContactDetails() {
                 <div className="card-btn mt-3">
                   <Card.Link>
                     <Button className="ms-3 warning" size="md" onClick={()=>handleDelete(id)} >
-                      <BsFillTrashFill />
+                      <BsFillTrashFill /> 
                     </Button>
                   </Card.Link>
                   <Card.Link as={Link} to={`/edit-contact/${id}`}>
